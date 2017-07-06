@@ -1,0 +1,75 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+<h1 class="page-header">Update Profile</h1>
+  <div class="row">
+      {% if messages %}
+        <div class="alert alert-warning">
+            <button type="button"data-dismiss="alert" aria-hidden="true">&times;</button>
+            
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            
+        </div>
+      {% endif %}
+      <div class="col-md-5">
+            <form class="form-horizontal" action="" method="POST" novalidate> {% csrf_token %}
+            <fieldset>
+              <div class="control-group {% if form.first_name.errors %} has-error {% endif %}">
+                <label class="control-label" for="first_name">First name</label>
+                <div class="controls">
+                  <input type="text" id="first_name" name="first_name" value="{{user.first_name}}"  class="form-control">
+                  <span class="help-block">{{form.first_name.errors}}</span>
+                </div>
+              </div>
+
+              <div class="control-group {% if form.last_name.errors %} has-error {% endif %}">
+                <label class="control-label" for="last_name">Last name</label>
+                <div class="controls">
+                  <input type="text" id="last_name" name="last_name"   value="{{user.last_name}}" class="form-control">
+                  <span class="help-block">{{form.last_name.errors}}</span>
+                </div>
+              </div>
+
+              <div class="control-group {% if form.email.errors %} has-error {% endif %}">
+                <label class="control-label" for="email" >Email</label>
+                <div class="controls">
+                  <input type="text" id="email" name="email"   value="{{user.email}}" class="form-control">
+                  <span class="help-block">{{form.email.errors}}</span>
+                </div>
+              </div>
+            
+              {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                  {% for error in form.non_field_errors %}
+                    {{error}}
+                  {% endfor %}
+                </div>
+              {% endif %}
+           
+              <div class="control-group">
+                <!-- Button -->
+                <div class="controls" style="margin-top:20px;">
+                  <button class="btn btn-success">Save</button>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+      
+      </div> 
+    </div>
+	<script type="text/javascript">
+			$(document).ready(function() {
+				populate();
+			});
+			function populate(){
+					$("#fname").val("{{fname}}");
+					$("#lname").val("{{lname}}");
+					$("#email").val("{{user.email}}");
+					//$("#toolloc").val("{{tool_location}}");
+			}
+	</script>
+{% endblock %}

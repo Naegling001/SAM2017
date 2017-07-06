@@ -1,0 +1,54 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+
+            
+            <ul class="breadcrumb">
+                <li>
+                    <i class="icon-home"></i>
+                    <a href="index.html">Home</a> 
+                    <i class="icon-angle-right"></i>
+                </li>
+                <li><a href="#">Review Paper</a></li>
+            </ul>       
+            <div class="row-fluid sortable">
+                <div class="box span12">
+                    <div class="box-header" data-original-title>
+                        <h2><i class="halflings-icon white edit"></i><span class="break"></span>Review Paper</h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+                            <a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+                            <a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+                        </div>
+                    </div>
+                    <div class="box-content">
+                        {% if error_message %}<p><strong>{{ error_message }}</strong></p>
+                        {% endif %}
+                        <form class="form-horizontal" action="{% url 'app:pcm_review' paper.id %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                          <fieldset>
+                            <div class="control-group">
+                              <label class="control-label" for="grade">Paper Grade</label>
+                              <div class="controls">
+                                    {{ form.grade }}
+                              </div>
+                            </div>
+                            <div class="control-group">
+                              <label class="control-label" for="comment">Comment</label>
+                              <div class="controls">
+                                    {{ form.comment }}
+                              </div>
+                            </div>
+                            <div class="form-actions">
+                              <input type="submit" class="btn btn-primary" value="Submit Review" />
+                            </div>
+                          </fieldset>
+                        </form>   
+
+                    </div>
+                </div><!--/span-->
+
+            </div><!--/row-->
+
+
+{% endblock %}

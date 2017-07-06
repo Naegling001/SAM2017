@@ -1,0 +1,70 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+
+			
+			<ul class="breadcrumb">
+				<li>
+					<i class="icon-home"></i>
+                    <a href="{% url 'app:index' %}">Home</a> 
+					<i class="icon-angle-right"></i>
+				</li>
+				<li><a href="#">Select PCM</a></li>
+			</ul>
+
+			<div class="row-fluid sortable">		
+				<div class="box span12">
+					<div class="box-header" data-original-title>
+						<h2><i class="halflings-icon white user"></i><span class="break"></span>Choose PCM for {{ paper.title }}</h2>
+						<div class="box-icon">
+							<!--<a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>-->
+							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+						</div>
+					</div>
+					<div class="box-content">
+						{% if error_message %}<p><strong>{{ error_message }}</strong></p>
+						{% endif %}
+						<form action="{% url 'app:assign' paper.id %}" method="post">
+						{% csrf_token %}
+						{% if pcm_list %}
+						<table class="table table-striped table-bordered bootstrap-datatable datatable">
+						  <thead>
+							  <tr>
+								  <th>Select</th>
+								  <th>Username</th>
+								  <th>Name</th>
+								  <th>Email</th>
+							  </tr>
+						  </thead>   
+						  <tbody>
+							{% for pcm in pcm_list %}
+							<tr>
+								<td><input type="checkbox" name="pcm{{ forloop.counter }}" id="pcm{{ forloop.counter}}" value="{{ pcm.id }}" /></td>
+                                {% if pcm.id in wishers %}
+								    <td class="center"><label for="pcm{{ forloop.counter }}" class="pcm-chose-paper">{{ pcm.user.username }}</label></td>
+                                {% else %}
+								    <td class="center"><label for="pcm{{ forloop.counter }}">{{ pcm.user.username }}</label></td>
+                                {% endif %}
+								<td class="center">{{ pcm.user.name }}</td>
+								<td class="center">{{ pcm.user.email }}</td>
+							</tr>
+							{% endfor %}
+						  </tbody>
+							
+					  </table>
+                      <div class="form-actions">
+                          <input class="btn btn-primary" type="submit" value="Assign" />
+                      </div>
+					  {% elif error_message == None %}
+							<strong>Need more pcms</strong>
+					  {% endif %}
+						</form>
+					</div>
+                    <p class="pcm-chose-paper">* names in this color denotes the pcm pre&ndash;selected the paper</p>
+				</div><!--/span-->
+			
+			</div><!--/row-->
+
+
+{% endblock %}

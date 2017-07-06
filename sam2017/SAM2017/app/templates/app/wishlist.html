@@ -1,0 +1,24 @@
+{% extends "app/base.html" %}
+
+    {% block content %}
+
+    <div class="box-content">
+        {% if error_message %}
+            <h2>{{ error_message }}</h2>
+            <a href="{% url 'app:index' %}">Home</a>
+        {% else %}
+            <h2>Are you sure you would like to preselect "{{paper.title}}"?</h2>
+            <form action "{% url 'app:wishlist' paper.id %}" method="post">
+            {% csrf_token %}
+
+            <div class="form-actions">
+                <input class="btn btn-primary" type="submit" name="submit" value="Confirm" />
+            </div>
+            <div class="form-actions">
+                <input class="btn btn-warning" type="submit" name="submit" value="Cancel" />
+            </div>
+        </form>
+        {% endif %}
+    </div>
+    
+    {% endblock %}
